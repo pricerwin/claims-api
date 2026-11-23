@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/claims
+    username: claims
+    password: claims
+  jpa:
+    hibernate:
+      # Creates/updates tables from your entity classes. Fine for a portfolio project.
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+
+server:
+  port: 8080

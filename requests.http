@@ -1,0 +1,53 @@
+### Try these from VS Code with the "REST Client" extension: click "Send Request" above each one.
+### The app seeds policy id 1 (AUTO-1001, $10,000 limit) on first startup.
+
+### File a valid claim
+POST http://localhost:8080/api/claims
+Content-Type: application/json
+
+{
+  "policyId": 1,
+  "incidentDate": "2026-11-01",
+  "description": "Rear-ended at a stoplight",
+  "amountRequested": 2500.00
+}
+
+### File a claim over the coverage limit (expect 422)
+POST http://localhost:8080/api/claims
+Content-Type: application/json
+
+{
+  "policyId": 1,
+  "incidentDate": "2026-11-01",
+  "description": "Total loss",
+  "amountRequested": 50000.00
+}
+
+### Missing fields (expect 400 with validation messages)
+POST http://localhost:8080/api/claims
+Content-Type: application/json
+
+{
+  "policyId": 1
+}
+
+### List all claims
+GET http://localhost:8080/api/claims
+
+### List claims by status
+GET http://localhost:8080/api/claims?status=SUBMITTED
+
+### Get one claim
+GET http://localhost:8080/api/claims/1
+
+### Move claim 1 through its lifecycle
+POST http://localhost:8080/api/claims/1/review
+
+###
+POST http://localhost:8080/api/claims/1/approve
+
+###
+POST http://localhost:8080/api/claims/1/pay
+
+### Try an illegal transition (expect 422)
+POST http://localhost:8080/api/claims/1/deny
